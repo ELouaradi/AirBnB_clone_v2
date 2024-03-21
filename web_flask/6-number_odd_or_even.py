@@ -1,55 +1,59 @@
 #!/usr/bin/python3
-"""A script that starts a Flask web application"""
+""" Add fifth view func that displays HTML page if n is int """
+
 from flask import Flask
 from flask import render_template
 
+
 app = Flask(__name__)
+app.url_map.strict_slashes = False
 
 
-@app.route("/", strict_slashes=False)
-def display_hello():
-    """Prints hello hbnb"""
-    return "Hello HBNB!"
+@app.route('/')
+def hello_world():
+    """ Returns some text. """
+    return 'Hello HBNB!'
 
 
-@app.route("/hbnb", strict_slashes=False)
-def desplay_hbnb():
-    """Print hbnb"""
-    return "HBNB"
+@app.route('/hbnb')
+def hello():
+    """ Return other text. """
+    return 'HBNB'
 
 
-@app.route("/c/<text>", strict_slashes=False)
-def display_cText(text):
-    """Print C with passed variable"""
-    text = text.replace("_", " ")
-    return "C %s" % (text)
+@app.route('/c/<text>')
+def c_text(text):
+    """ replace text with variable. """
+    text = text.replace('_', ' ')
+    return 'C {}'.format(text)
 
 
-@app.route('/python/', strict_slashes=False)
-@app.route('/python/<text>', strict_slashes=False)
-def display_pythonText(text='is cool'):
-    """ Function called with /python/<text> route """
-    if text != 'is cool':
-        text = text.replace('_', ' ')
-    return 'Python %s' % (text)
+@app.route('/python/')
+@app.route('/python/<text>')
+def python_text(text='is cool'):
+    """ replace more text with another variable. """
+    text = text.replace('_', ' ')
+    return 'Python {}'.format(text)
 
 
-@app.route('/number/<int:n>', strict_slashes=False)
-def display_if_int(n):
-    return '%d is a number' % (n)
+@app.route('/number/<int:n>')
+def number_text(n):
+    """ replace with int only if given int. """
+    n = str(n)
+    return '{} is a number'.format(n)
 
 
-@app.route('/number_template/<int:n>', strict_slashes=False)
-def template_render_num(n):
-    """Render template if number is an integer"""
-    return render_template('5-number.html', num=n)
+@app.route('/number_template/<int:n>')
+def html_num(n):
+    """ display html if n is int. """
+    n = str(n)
+    return render_template('5-number.html', n=n)
 
 
-@app.route('/number_odd_or_even/<int:n>', strict_slashes=False)
-def template_render_even_odd(n):
-    """Render template if number is an integer
-    identify if number is odd or even"""
-    return render_template('6-number_odd_or_even.html', num=n)
+@app.route('/number_odd_or_even/<int:n>')
+def odd_or_even(n):
+    """ display different page depending on var given odd or even. """
+    return render_template('6-number_odd_or_even.html', n=n)
 
 
 if __name__ == '__main__':
